@@ -11,10 +11,20 @@ import java.time.LocalDateTime;
 
 @RestControllerAdvice
 public class GlobalExceptionHandler {
+    //resource not found exception
     @ExceptionHandler(ResourceNotFoundException.class)
     public ResponseEntity<ApiResponse<Void>> handleNotFound(ResourceNotFoundException ex){
         ErrorDetail error = new ErrorDetail("NOT_FOUND", ex.getMessage(), LocalDateTime.now())
         return ResponseEntity.status(HttpStatus.NOT_FOUND).body(ApiResponse.error(error));
     }
 
+    //business rule validation handler
+    @ExceptionHandler({
+            InsufficientBalanceException.class,
+            SlotAlreadyBookedException.class
+    })
+    public ResponseEntity<ApiResponse<Void>> handleBusinessConflict(DomainException ex){
+        ErrorDetail error = new ErrorDetail("BUSSINESS_RULE_VALIDATION", ex.getMessage(), LocalDateTime.now());
+        return ResponseEntity.status(HttpStatus.CONFLICT).body(ApiResponse.error(error));
+    }
 }
