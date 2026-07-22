@@ -1,7 +1,7 @@
 package lk.sportsclub.platform.shared.exceptions;
 
 import lk.sportsclub.platform.shared.DTOs.ErrorDetail;
-import org.apache.coyote.Response;
+import org.springframework.boot.web.error.Error;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.MethodArgumentNotValidException;
@@ -41,5 +41,12 @@ public class GlobalExceptionHandler {
 
         ErrorDetail error = new ErrorDetail("VALIDATION_FAILED", details.toString(), LocalDateTime.now());
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(ApiResponse.error(error));
+    }
+
+    //handle unexpected exceptions
+    @ExceptionHandler(Exception.class)
+    public ResponseEntity<ApiResponse<Void>> handleGenericException(Exception ex){
+        ErrorDetail error = new ErrorDetail("INTERNAL_SERVER_ERROR", ex.getMessage(), LocalDateTime.now());
+        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(ApiResponse.error(error));
     }
 }
