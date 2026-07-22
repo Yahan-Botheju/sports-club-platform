@@ -1,7 +1,7 @@
 package lk.sportsclub.platform.shared.exceptions;
 
+import lk.sportsclub.platform.shared.DTOs.ApiResponse;
 import lk.sportsclub.platform.shared.DTOs.ErrorDetail;
-import org.springframework.boot.web.error.Error;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.MethodArgumentNotValidException;
